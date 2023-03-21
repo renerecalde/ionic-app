@@ -1,0 +1,18 @@
+version: '3.5'
+
+services:
+
+  ionic-app-web:
+    container_name: ionic-app-web 
+    build:
+      context: ./docker/ionic
+      args:
+        UID: $U_ID
+    ports: 
+        - '8100:8100'
+    networks:
+      - ionic-app-network
+
+networks:
+  ionic-app-network:
+    external: true
