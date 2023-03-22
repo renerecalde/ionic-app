@@ -48,10 +48,10 @@ RUN mkdir -p ${ANDROID_HOME} && \
 
 
 # INSTALL GLIBC
-#RUN curl -L https://raw.githubusercontent.com/wassim6/alpine-pkg-glibc/master/sgerrand.rsa.pub > /etc/apk/keys/sgerrand.rsa.pub && \
-#  curl -L ${GLIB_PACKAGE_BASE_URL}/${GLIB_VERSION}/glibc-${GLIB_VERSION}.apk > /tmp/glibc.apk && \
-#  curl -L ${GLIB_PACKAGE_BASE_URL}/${GLIB_VERSION}/glibc-bin-${GLIB_VERSION}.apk > /tmp/glibc-bin.apk && \
-#  apk add /tmp/glibc-bin.apk /tmp/glibc.apk
+RUN curl -L https://raw.githubusercontent.com/wassim6/alpine-pkg-glibc/master/sgerrand.rsa.pub > /etc/apk/keys/sgerrand.rsa.pub && \
+  curl -L ${GLIB_PACKAGE_BASE_URL}/${GLIB_VERSION}/glibc-${GLIB_VERSION}.apk > /tmp/glibc.apk && \
+  curl -L ${GLIB_PACKAGE_BASE_URL}/${GLIB_VERSION}/glibc-bin-${GLIB_VERSION}.apk > /tmp/glibc-bin.apk && \
+  apk add /tmp/glibc-bin.apk /tmp/glibc.apk
 
 # CONFIGURATION
 RUN echo y | android update sdk --no-ui -a --filter platform-tools,${ANDROID_API_LEVELS},build-tools-${ANDROID_BUILD_TOOLS_VERSION}
@@ -68,7 +68,7 @@ RUN rm -rf /tmp/* /var/cache/apk/*
 
 WORKDIR /appdata/www
 
-#RUN npm install
+RUN npm install
 
 EXPOSE 8100
 

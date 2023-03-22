@@ -12,15 +12,12 @@ ENV GRADLE_HOME /usr/local/gradle
 ENV GRADLE_VERSION 7.1.1
 
 ENV ANDROID_HOME /usr/local/android-sdk-linux
-ENV ANDROID_TOOLS_VERSION r24.4.1
+ENV ANDROID_TOOLS_VERSION 32.0.0
 ENV ANDROID_API_LEVELS android-32
-ENV ANDROID_BUILD_TOOLS_VERSION r24.4.1
-ENV IONIC_VERSION latest
-
+ENV ANDROID_BUILD_TOOLS_VERSION 32.0.0
+ENV IONIC_VERSION 4.12.0
 
 ENV PATH ${GRADLE_HOME}/bin:${JAVA_HOME}/bin:${ANDROID_HOME}/tools:$ANDROID_HOME/platform-tools:$PATH
-
-RUN npm config set proxy "http://10.7.6.6:3128"
 
 # Capacitor
 RUN npm install -g @capacitor/cli@${CAPACITOR_VERSION}
@@ -46,12 +43,11 @@ RUN mkdir -p ${ANDROID_HOME} && \
   curl -L https://dl.google.com/android/repository/tools_${ANDROID_TOOLS_VERSION}-linux.zip > /tmp/tools.zip && \
   unzip /tmp/tools.zip -d ${ANDROID_HOME}
 
-
 # INSTALL GLIBC
-#RUN curl -L https://raw.githubusercontent.com/wassim6/alpine-pkg-glibc/master/sgerrand.rsa.pub > /etc/apk/keys/sgerrand.rsa.pub && \
-#  curl -L ${GLIB_PACKAGE_BASE_URL}/${GLIB_VERSION}/glibc-${GLIB_VERSION}.apk > /tmp/glibc.apk && \
-#  curl -L ${GLIB_PACKAGE_BASE_URL}/${GLIB_VERSION}/glibc-bin-${GLIB_VERSION}.apk > /tmp/glibc-bin.apk && \
-#  apk add /tmp/glibc-bin.apk /tmp/glibc.apk
+RUN curl -L https://raw.githubusercontent.com/wassim6/alpine-pkg-glibc/master/sgerrand.rsa.pub > /etc/apk/keys/sgerrand.rsa.pub && \
+  curl -L ${GLIB_PACKAGE_BASE_URL}/${GLIB_VERSION}/glibc-${GLIB_VERSION}.apk > /tmp/glibc.apk && \
+  curl -L ${GLIB_PACKAGE_BASE_URL}/${GLIB_VERSION}/glibc-bin-${GLIB_VERSION}.apk > /tmp/glibc-bin.apk && \
+  apk add /tmp/glibc-bin.apk /tmp/glibc.apk
 
 # CONFIGURATION
 RUN echo y | android update sdk --no-ui -a --filter platform-tools,${ANDROID_API_LEVELS},build-tools-${ANDROID_BUILD_TOOLS_VERSION}
@@ -68,7 +64,7 @@ RUN rm -rf /tmp/* /var/cache/apk/*
 
 WORKDIR /appdata/www
 
-#RUN npm install
+RUN npm install
 
 EXPOSE 8100
 
